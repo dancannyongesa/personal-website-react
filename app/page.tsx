@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false); // Handled by next-themes
 
   const navLinks = [
     { href: '#about', label: 'About' },
@@ -17,99 +16,125 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-zinc-950 text-white overflow-hidden">
+      {/* Navbar - Glass */}
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">DO</div>
-            <span className="font-semibold text-xl">Dan Ongesa</span>
+            <motion.div 
+              animate={{ rotate: [0, 10, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="w-9 h-9 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center text-xl font-bold"
+            >DO</motion.div>
+            <span className="font-bold text-2xl tracking-tight">Dan Ongesa</span>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <div className="hidden md:flex items-center gap-10 text-sm uppercase tracking-widest">
+            {navLinks.map((link, i) => (
+              <motion.a 
+                key={link.href} 
+                href={link.href}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="hover:text-violet-400 transition-colors duration-300"
+              >
                 {link.label}
-              </a>
+              </motion.a>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
             <button
               onClick={() => document.documentElement.classList.toggle('dark')}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+              className="p-3 glass rounded-2xl hover:scale-110 transition-all"
             >
               <Sun className="h-5 w-5 hidden dark:block" />
               <Moon className="h-5 w-5 block dark:hidden" />
             </button>
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-3 glass rounded-2xl">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero with super animation */}
+      <section className="min-h-screen pt-24 flex items-center relative">
+        <div className="absolute inset-0 bg-[radial-gradient(at_center,#4f46e520_0%,transparent_70%)]"></div>
+        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-6">
-              Hi, I'm <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Dan Canny Ongesa</span>
+            <div className="inline-block mb-6 px-6 py-2 glass rounded-full text-sm tracking-[3px]">FULL-STACK DEVELOPER</div>
+            <h1 className="text-7xl md:text-[5.5rem] font-bold tracking-tighter leading-none mb-8">
+              Dan Canny<br />Ongesa
             </h1>
-            <p className="text-2xl text-gray-600 dark:text-gray-400 mb-8">
-              Full Stack Developer crafting digital experiences
+            <p className="text-2xl text-slate-400 max-w-2xl mx-auto mb-12">
+              Crafting immersive digital experiences with code and creativity
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="#projects" className="px-8 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:scale-105 transition-transform">
-                View Projects
-              </a>
-              <a href="mailto:your@email.com" className="px-8 py-3 border border-gray-300 dark:border-gray-700 rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
-                Get In Touch
-              </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.a 
+                href="#projects"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="glass px-10 py-4 rounded-2xl font-semibold text-lg inline-flex items-center justify-center gap-3 hover:border-white/40"
+              >
+                Explore Work <span className="text-xl">↓</span>
+              </motion.a>
+              <Link href="/login" className="glass px-10 py-4 rounded-2xl font-semibold text-lg inline-flex items-center justify-center">
+                Admin Access
+              </Link>
             </div>
           </motion.div>
         </div>
+
+        {/* Floating elements */}
+        <motion.div className="absolute bottom-20 right-10 hidden lg:block float" style={{animationDelay: '1s'}}>
+          <div className="glass w-40 h-40 rounded-3xl p-6 flex items-center justify-center text-6xl">🚀</div>
+        </motion.div>
       </section>
 
       {/* About */}
-      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section id="about" className="py-32 relative">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-8 text-center">About Me</h2>
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="text-lg leading-relaxed text-center">
-              Passionate developer with expertise in React, Node.js, and modern web technologies. I build scalable applications and love turning ideas into reality.
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-6xl font-bold text-center mb-16"
+          >About Me</motion.h2>
+          <div className="glass p-16 rounded-3xl">
+            <p className="text-xl leading-relaxed text-center text-slate-300">
+              Passionate full-stack developer turning bold ideas into elegant, high-performance applications. 
+              I specialize in React, Next.js, Node.js and love building things that matter.
             </p>
           </div>
         </div>
       </section>
 
       {/* Projects */}
-      <section id="projects" className="py-20">
+      <section id="projects" className="py-32 bg-black/40">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-12 text-center">Featured Projects</h2>
+          <h2 className="text-6xl font-bold text-center mb-20">Featured Projects</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { title: 'SneekSave', desc: 'Financial management app', link: '#' },
-              { title: 'SparkBlog', desc: 'Modern blogging platform', link: '#' },
+              { title: 'SneekSave', desc: 'Smart financial tracking & savings platform', link: '#' },
+              { title: 'SparkBlog', desc: 'Modern content platform with real-time features', link: '#' },
             ].map((project, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 transition-all hover:-translate-y-1"
+                transition={{ delay: index * 0.15 }}
+                className="glass-card glass p-10 rounded-3xl group"
               >
-                <h3 className="text-2xl font-semibold mb-3">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">{project.desc}</p>
-                <a href={project.link} className="text-blue-600 hover:underline flex items-center gap-2">
-                  View Project <span>→</span>
+                <div className="h-2 w-12 bg-gradient-to-r from-violet-400 to-fuchsia-500 rounded mb-8"></div>
+                <h3 className="text-4xl font-semibold mb-4 group-hover:text-violet-400 transition-colors">{project.title}</h3>
+                <p className="text-slate-400 text-lg mb-8">{project.desc}</p>
+                <a href={project.link} className="inline-flex items-center gap-2 text-violet-400 hover:gap-3 transition-all">
+                  View Case Study →
                 </a>
               </motion.div>
             ))}
@@ -117,14 +142,14 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-12 border-t border-gray-200 dark:border-gray-800">
+      <footer className="py-20 border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <div className="flex justify-center gap-6 mb-6">
-            <a href="https://github.com/dancannyongesa" target="_blank"><Github className="h-6 w-6" /></a>
-            <a href="#"><Linkedin className="h-6 w-6" /></a>
-            <a href="mailto:your@email.com"><Mail className="h-6 w-6" /></a>
+          <div className="flex justify-center gap-8 mb-8">
+            <a href="https://github.com/dancannyongesa" target="_blank" className="hover:text-violet-400 transition-colors"><Github className="h-7 w-7" /></a>
+            <a href="#" className="hover:text-violet-400 transition-colors"><Linkedin className="h-7 w-7" /></a>
+            <a href="mailto:your@email.com" className="hover:text-violet-400 transition-colors"><Mail className="h-7 w-7" /></a>
           </div>
-          <p>© 2026 Dan Canny Ongesa. All rights reserved.</p>
+          <p className="text-slate-500">© 2026 Dan Canny Ongesa. Built with passion.</p>
         </div>
       </footer>
     </div>
